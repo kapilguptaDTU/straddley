@@ -107,6 +107,7 @@ app.get('/', function (req, res) {
     
   // getData();
 
+  console.log("getting homeeee")
 res.render('homepage');
 });
 
