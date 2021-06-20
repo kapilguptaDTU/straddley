@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STRADLY: MAKING VISUAIZATION EASY</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.3.2/dist/chart.min.js"></script>
+
+<body style="background-color:rgb(10, 9, 9)">
+    <h1 style="color: white;">STRADLY</h1>
+
+<a href="/">GO HOME</a>
+
+<div style="display: flex;flex-wrap: wrap;flex-direction: column;align-items: center;justify-content: center;">
+
+<div style="	max-width: 640px;width: 100%;">
+    <canvas id="myChart" width="70%" height="50%"></canvas>
+</div>
+<div style="	max-width: 640px;width: 100%;">
+    <canvas id="myChart2" width="70%" height="50%"></canvas>
+</div>
+
+</div>
+
+
+
+<script>
+    // var dta=document.getElementById('data_id')
+    
+    // console.log(dta)
+    var rawdata=<%- JSON.stringify(data) %>;
+    var rawdata_strangle=<%- JSON.stringify(data_strangle) %>;
+       
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var ctx2=document.getElementById('myChart2').getContext('2d');
+
+    timeseries=[];
+    yaxisvaluesstraddle=[];
+    yaxisvaluesstrangle=[];
+        
+    async function makeData(){
+        rawdata.forEach(row => {
+            timeseries.push(row['TIME_STRING'])
+            yaxisvaluesstraddle.push(row['DECAY OF OUR STRADDLE'])
+        });
+        rawdata_strangle.forEach(row => {
+            yaxisvaluesstrangle.push(row['DECAY OF OUR STRANGLE'])
+        });
+        
+       timeseries= timeseries.slice(1,6100)
+      yaxisvaluesstraddle=  yaxisvaluesstraddle.slice(1,6100)
+      yaxisvaluesstrangle=yaxisvaluesstrangle.slice(1,6100)
+    }
+    async function renderChart(){
+
+        await makeData();
+        var myChart = new Chart(ctx, {
+        type: 'line',
+
+        data: {
+            labels: timeseries,
+
+            datasets: [{
+                label: 'DECAY STRADDLE',
+                data: yaxisvaluesstraddle,
+                backgroundColor: 
+                    'rgba(255, 99, 132, 0.2)'
+                ,
+                borderColor: 
+                    'rgba(255, 99, 132, 1)'
+                ,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                xAxes:[{
+                    gridLines: {
+                        display:true,
+                        color: '#FFFFFF', zeroLineColor: '#FFFFFF' ,
+                        lineWidth:10,
+                        borderColor:'#FFFFFF'
+                    }
+                }],
+                yAxes:[{
+                    gridLines: {
+                        display:true,
+                        color:'#FFFFFF',
+                        color: "#FFFFFF", zeroLineColor: '#FFFFFF' ,
+                        lineWidth:10,
+                        borderColor:'#FFFFFF'
+                    }
+                }]
+               
+            },
+            radius:0
+        }
+    });
+
+    var myChart2 = new Chart(ctx2, {
+        type: 'line',
+
+        data: {
+            labels: timeseries,
+            datasets: [{
+                label: 'DECAY STRANGLE',
+                data: yaxisvaluesstrangle,
+                backgroundColor: 
+                    'rgba(255, 99, 132, 0.2)'
+                ,
+                borderColor: 
+                    'rgba(255, 99, 132, 1)'
+                    ,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                xAxes:[{
+                    gridLines: {
+                        display:true,
+                        color:"#FFFFFF",
+                        color: '#FFFFFF', zeroLineColor: '#FFFFFF' ,
+                        lineWidth:10,
+                        borderColor:'#FFFFFF'
+                    }
+                }],
+                yAxes:[{
+                    gridLines: {
+                        display:true,
+                        color:'#FFFFFF',
+                        color: "#FFFFFF", zeroLineColor: '#FFFFFF' ,
+                        lineWidth:10,
+                        borderColor:'#FFFFFF'
+                    }
+                }]
+               
+            },
+            radius:0
+        }
+    });
+
+        // console.log(timeseries);
+
+    }  
+    
+    renderChart();
+    
+    // getData();
+
+// async function getData(){
+//     var response=await fetch('ZonAnn.Ts+dSST.csv')
+//     console.log(response)
+// }
+
+    </script>
+        
+</body>
+</html>
