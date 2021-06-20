@@ -108,10 +108,14 @@ app.get('/', async function (req, res) {
   // getData();
 var data=await niftydata();
 
-console.log("getting data /")
-// console.log(data[0])
+console.log("getting dataaaaaaa")
+
+console.log(data[0])
+
+
 res.render('index',{data:data});
 });
+
 
 
 app.get('/nifty', async function (req, res) {
