@@ -103,7 +103,14 @@ function vommadata(){
 
 // var data;
 
-app.get('/', async function (req, res) {
+app.get('/', function (req, res) {
+    
+  // getData();
+
+res.render('homepage');
+});
+
+app.get('/vomma', async function (req, res) {
     
   // getData();
 var data=await niftydata();
